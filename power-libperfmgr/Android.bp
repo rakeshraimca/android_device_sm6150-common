@@ -29,6 +29,7 @@ cc_binary {
         "Power.cpp",
         "InteractionHandler.cpp",
         "display-helper.cpp",
+	"power-helper.c",
     ],
     cflags: [
         "-Wall",

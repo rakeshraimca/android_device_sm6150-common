@@ -32,11 +32,15 @@
 #include "Power.h"
 #include "display-helper.h"
 #include <linux/input.h>
-
+#include "power-helper.h"
 constexpr int kWakeupModeOff = 4;
 constexpr int kWakeupModeOn = 5;
 
+/* RPM runs at 19.2Mhz. Divide by 19200 for msec */
+#define RPM_CLK 19200
+
 extern struct stats_section master_sections[];
+extern struct stat_pair rpm_stat_map[];
 
 namespace android {
 namespace hardware {
@@ -45,7 +49,10 @@ namespace V1_3 {
 namespace implementation {
 
 using ::android::hardware::power::V1_0::Feature;
+using ::android::hardware::power::V1_0::PowerStatePlatformSleepState;
 using ::android::hardware::power::V1_0::Status;
+using ::android::hardware::power::V1_1::PowerStateSubsystem;
+using ::android::hardware::power::V1_1::PowerStateSubsystemSleepState;
 using ::android::hardware::hidl_vec;
 using ::android::hardware::Return;
 using ::android::hardware::Void;
@@ -274,15 +281,58 @@ Return<void> Power::setFeature(Feature feature, bool activate) {
 }
 
 Return<void> Power::getPlatformLowPowerStats(getPlatformLowPowerStats_cb _hidl_cb) {
-    LOG(INFO) << "getPlatformLowPowerStats not supported. Do nothing.";
-    _hidl_cb({}, Status::SUCCESS);
+    hidl_vec<PowerStatePlatformSleepState> states;
+    uint64_t stats[MAX_PLATFORM_STATS * MAX_RPM_PARAMS] = {0};
+    uint64_t *values;
+    struct PowerStatePlatformSleepState *state;
+    int ret;
+
+    states.resize(PLATFORM_SLEEP_MODES_COUNT);
+
+    ret = extract_platform_stats(stats);
+    if (ret != 0) {
+        states.resize(0);
+        goto done;
+    }
+
+    /* Update statistics for XO_shutdown */
+    state = &states[RPM_MODE_XO];
+    state->name = "XO_shutdown";
+    values = stats + (RPM_MODE_XO * MAX_RPM_PARAMS);
+
+    state->residencyInMsecSinceBoot = values[1];
+    state->totalTransitions = values[0];
+    state->supportedOnlyInSuspend = false;
+    state->voters.resize(XO_VOTERS);
+    for(size_t i = 0; i < XO_VOTERS; i++) {
+        int voter = static_cast<int>(i + XO_VOTERS_START);
+        state->voters[i].name = rpm_stat_map[voter].label;
+        values = stats + (voter * MAX_RPM_PARAMS);
+        state->voters[i].totalTimeInMsecVotedForSinceBoot = values[0] / RPM_CLK;
+        state->voters[i].totalNumberOfTimesVotedSinceBoot = values[1];
+    }
+
+    /* Update statistics for VMIN state */
+    state = &states[RPM_MODE_VMIN];
+    state->name = "VMIN";
+    values = stats + (RPM_MODE_VMIN * MAX_RPM_PARAMS);
+
+    state->residencyInMsecSinceBoot = values[1];
+    state->totalTransitions = values[0];
+    state->supportedOnlyInSuspend = false;
+    state->voters.resize(VMIN_VOTERS);
+    //Note: No filling of state voters since VMIN_VOTERS = 0
+
+done:
+    _hidl_cb(states, Status::SUCCESS);
     return Void();
 }
 
 // Methods from ::android::hardware::power::V1_1::IPower follow.
 Return<void> Power::getSubsystemLowPowerStats(getSubsystemLowPowerStats_cb _hidl_cb) {
-    LOG(INFO) << "getSubsystemLowPowerStats not supported. Do nothing.";
-    _hidl_cb({}, Status::SUCCESS);
+    hidl_vec<PowerStateSubsystem> subsystems;
+    subsystems.resize(0);
+    _hidl_cb(subsystems, Status::SUCCESS);
     return Void();
 }
 
