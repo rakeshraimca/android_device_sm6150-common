@@ -81,9 +81,9 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     fs_config_files
 
-# ATRACE_HAL
+# Pixel atrace HAL
 PRODUCT_PACKAGES += \
-    android.hardware.atrace@1.0-service
+    android.hardware.atrace@1.0-service.pixel
 
 # Audio
 PRODUCT_PACKAGES += \
