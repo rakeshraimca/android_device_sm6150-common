@@ -380,13 +380,12 @@ PRODUCT_PACKAGES += \
 
 # Thermal
 PRODUCT_PACKAGES += \
-    android.hardware.thermal@1.0-impl \
-    android.hardware.thermal@1.0-service \
-    thermal.sm6150
+    android.hardware.thermal@2.0-service.pixel
 
 # Thermal config
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/thermal-engine-normal_mode.conf:$(TARGET_COPY_OUT_VENDOR)/etc/thermal-engine-normal_mode.conf
+    $(LOCAL_PATH)/configs/thermal-engine-normal_mode.conf:$(TARGET_COPY_OUT_VENDOR)/etc/thermal-engine-normal_mode.conf \
+    $(LOCAL_PATH)/configs/thermal_info_config.json:$(TARGET_COPY_OUT_VENDOR)/etc/thermal_info_config.json
 
 # Touchscreen
 PRODUCT_PACKAGES += \

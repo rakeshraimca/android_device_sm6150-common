@@ -164,6 +164,14 @@ on init
     write /dev/cpuset/application/background/cpus 0-7
     write /dev/cpuset/application/cpus 0-7
 
+on late-init
+    setprop vendor.thermal.config thermal_info_config.json
+    chown system system /sys/devices/virtual/thermal/tz-by-name/sdm-therm-monitor/trip_point_0_temp
+    chown system system /sys/devices/virtual/thermal/tz-by-name/sdm-therm-monitor/trip_point_0_hyst
+    chown system system /sys/devices/virtual/thermal/tz-by-name/usbc-therm-monitor/trip_point_0_temp
+    chown system system /sys/devices/virtual/thermal/tz-by-name/usbc-therm-monitor/trip_point_0_hyst
+    chown system system /sys/devices/virtual/thermal/tz-by-name/soc/mode
+
 on fs
     mount_all /vendor/etc/fstab.qcom --early
     chown root system /mnt/vendor/persist
@@ -583,6 +591,10 @@ on property:persist.vendor.sys.rawdump_copy=1
 
 on property:persist.vendor.sys.rawdump_copy=0
     write /sys/kernel/dload/emmc_dload 0
+
+on property:init.svc.vendor.charger=running
+    # Enable thermal mitigation
+    write /sys/devices/virtual/thermal/tz-by-name/backup-charge/mode enabled
 
 on property:sys.boot_completed=1
     setprop vendor.setup.power 1
