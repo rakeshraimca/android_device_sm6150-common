@@ -384,6 +384,10 @@ PRODUCT_PACKAGES += \
     android.hardware.thermal@1.0-service \
     thermal.sm6150
 
+# Thermal config
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/thermal-engine-normal_mode.conf:$(TARGET_COPY_OUT_VENDOR)/etc/thermal-engine-normal_mode.conf
+
 # Touchscreen
 PRODUCT_PACKAGES += \
     libtinyxml2
