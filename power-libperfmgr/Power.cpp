@@ -40,6 +40,11 @@ constexpr int kWakeupModeOn = 5;
 #define RPM_CLK 19200
 
 extern struct stats_section master_sections[];
+
+#ifndef TAP_TO_WAKE_NODE
+#define TAP_TO_WAKE_NODE "/dev/input/event3"
+#endif
+
 extern struct stat_pair rpm_stat_map[];
 
 namespace android {
