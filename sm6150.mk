@@ -152,7 +152,8 @@ PRODUCT_PACKAGES += \
     libgui_vendor \
     libxml2 \
     Snap \
-    vendor.qti.hardware.camera.device@1.0.vendor
+    vendor.qti.hardware.camera.device@1.0.vendor \
+    vendor.qti.hardware.camera.device@1.0
 
 # CNE
 PRODUCT_PACKAGES += \
