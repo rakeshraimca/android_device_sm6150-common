@@ -7,7 +7,6 @@ genfscon sysfs /devices/virtual/ramoops/pstore/aes_key_iv u:object_r:sysfs_pstor
 genfscon sysfs /devices/virtual/ramoops/pstore/aes_key_tag u:object_r:sysfs_pstore:s0
 genfscon sysfs /devices/virtual/ramoops/pstore/use_alt u:object_r:sysfs_pstore:s0
 
-genfscon sysfs /devices/platform/soc/soc:fingerprint_fpc/clk_enable            u:object_r:sysfs_fingerprint:s0
 genfscon sysfs /devices/platform/soc/soc:fingerprint_fpc/device_prepare        u:object_r:sysfs_fingerprint:s0
 genfscon sysfs /devices/platform/soc/soc:fingerprint_fpc/finger_irq            u:object_r:sysfs_fingerprint:s0
 genfscon sysfs /devices/platform/soc/soc:fingerprint_fpc/fingerdown_wait       u:object_r:sysfs_fingerprint:s0
@@ -17,11 +16,9 @@ genfscon sysfs /devices/platform/soc/soc:fingerprint_fpc/clk_enable            u
 genfscon sysfs /devices/platform/soc/soc:fingerprint_fpc/irq                   u:object_r:sysfs_fingerprint:s0
 genfscon sysfs /devices/platform/soc/soc:fingerprint_fpc/irq_enable            u:object_r:sysfs_fingerprint:s0
 genfscon sysfs /devices/platform/soc/soc:fingerprint_fpc/pinctl_set            u:object_r:sysfs_fingerprint:s0
-genfscon sysfs /devices/platform/soc/soc:fingerprint_fpc/regulator_enable      u:object_r:sysfs_fingerprint:s0
 genfscon sysfs /devices/platform/soc/soc:fingerprint_fpc/request_vreg          u:object_r:sysfs_fingerprint:s0
 genfscon sysfs /devices/platform/soc/soc:fingerprint_fpc/simulate_irq          u:object_r:sysfs_fingerprint:s0
 genfscon sysfs /devices/platform/soc/soc:fingerprint_fpc/vendor                u:object_r:sysfs_fingerprint:s0
-genfscon sysfs /devices/platform/soc/soc:fingerprint_fpc/pinctl_set            u:object_r:sysfs_fingerprint:s0
 genfscon sysfs /devices/platform/soc/soc:fingerprint_fpc/regulator_enable      u:object_r:sysfs_fingerprint:s0
 genfscon sysfs /devices/platform/soc/soc:fingerprint_fpc/wakeup_enable         u:object_r:sysfs_fingerprint:s0
 genfscon sysfs /kernel/wlan u:object_r:sysfs_power_stats:s0

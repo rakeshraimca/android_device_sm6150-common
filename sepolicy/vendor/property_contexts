@@ -9,7 +9,6 @@ vendor.ramoops.             u:object_r:vendor_ramoops_prop:s0
 # Camera
 camera. u:object_r:vendor_camera_prop:s0
 persist.camera. u:object_r:vendor_camera_prop:s0
-vendor.debug.rs.           u:object_r:public_vendor_default_prop:s0
 vendor.camera.sensor.  u:object_r:vendor_camera_prop:s0
 vendor.camera.boot_complete                     u:object_r:vendor_camera_prop:s0
 ro.vendor.camera.                               u:object_r:vendor_camera_prop:s0
@@ -60,12 +59,6 @@ ro.carrier.name                     u:object_r:public_vendor_default_prop:s0
 ro.miui.cust_variant                u:object_r:public_vendor_default_prop:s0
 vendor.debug.rs.                    u:object_r:public_vendor_default_prop:s0
 
-# Google camera hal read only props
-ro.vendor.camera.                               u:object_r:camera_ro_prop:s0
-ro.vendor.camera.res.fmq.size                   u:object_r:camera_ro_prop:s0
-ro.vendor.camera.req.fmq.size                   u:object_r:camera_ro_prop:s0
-ro.camera.res.fmq.size                          u:object_r:camera_ro_prop:s0
-ro.camera.req.fmq.size                          u:object_r:camera_ro_prop:s0
 
 # Init
 vendor.all.devices.ready        u:object_r:vendor_device_prop:s0
