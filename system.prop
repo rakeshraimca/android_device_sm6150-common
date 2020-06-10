@@ -62,7 +62,11 @@ use.voice.path.for.pcm.voip=true
 # Time
 persist.vendor.delta_time.enable=true
 
+
+#Wallpaper and UI
+sys.use_fifo_ui=0
+debug.sf.latch_unsignaled=0
+
 # Wireless display
-debug.sf.latch_unsignaled=1
 persist.debug.wfd.enable=1
 persist.sys.wfd.virtual=0
