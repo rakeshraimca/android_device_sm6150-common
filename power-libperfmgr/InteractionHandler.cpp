@@ -29,13 +29,15 @@
 
 #include "InteractionHandler.h"
 
-#define FB_IDLE_PATH "/sys/class/drm/card0/device/idle_state"
 #define MAX_LENGTH 64
 
 #define MSINSEC 1000L
 #define USINMS 1000000L
 
-InteractionHandler::InteractionHandler(std::shared_ptr<HintManager> const & hint_manager)
+static const std::vector<std::string> fb_idle_patch = {"/sys/class/drm/card0/device/idle_state",
+                                                       "/sys/class/graphics/fb0/idle_state"};
+
+InteractionHandler::InteractionHandler(std::shared_ptr<HintManager> const &hint_manager)
     : mState(INTERACTION_STATE_UNINITIALIZED),
       mWaitMs(100),
       mMinDurationMs(1400),
@@ -48,22 +50,32 @@ InteractionHandler::~InteractionHandler() {
     Exit();
 }
 
+static int fb_idle_open(void) {
+    int fd;
+    for (auto &path : fb_idle_patch) {
+        fd = open(path.c_str(), O_RDONLY);
+        if (fd >= 0)
+            return fd;
+    }
+    ALOGE("Unable to open fb idle state path (%d)", errno);
+    return -1;
+}
+
 bool InteractionHandler::Init() {
     std::lock_guard<std::mutex> lk(mLock);
 
     if (mState != INTERACTION_STATE_UNINITIALIZED)
         return true;
 
-    mIdleFd = open(FB_IDLE_PATH, O_RDONLY);
-    if (mIdleFd < 0) {
-        ALOGE("Unable to open idle state path (%d)", errno);
-        return false;
-    }
+    int fd = fb_idle_open();
+    mIdleFd = fd;
 
     mEventFd = eventfd(0, EFD_NONBLOCK);
     if (mEventFd < 0) {
         ALOGE("Unable to create event fd (%d)", errno);
-        close(mIdleFd);
+        if (mIdleFd >= 0) {
+            close(mIdleFd);
+        }
         return false;
     }
 
@@ -87,7 +99,9 @@ void InteractionHandler::Exit() {
     mThread->join();
 
     close(mEventFd);
-    close(mIdleFd);
+    if (mIdleFd >= 0) {
+        close(mIdleFd);
+    }
 }
 
 void InteractionHandler::PerfLock() {
@@ -190,6 +204,11 @@ void InteractionHandler::WaitForIdle(int32_t wait_ms, int32_t timeout_ms) {
     ATRACE_CALL();
 
     ALOGV("%s: wait:%d timeout:%d", __func__, wait_ms, timeout_ms);
+
+    if (mIdleFd < 0) {
+        usleep(wait_ms + timeout_ms);
+        return;
+    }
 
     pfd[0].fd = mEventFd;
     pfd[0].events = POLLIN;
