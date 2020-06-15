@@ -683,7 +683,7 @@ on charger
     write /sys/class/leds/green/max_brightness 32
     write /sys/class/leds/blue/max_brightness 32
 
-service vendor.thermal-engine /vendor/bin/thermal-engine -c /vendor/etc/thermal-engine-normal_mode.conf
+service thermal-engine /vendor/bin/thermal-engine
    class main
    user root
    socket thermal-send-client stream 0666 system system
