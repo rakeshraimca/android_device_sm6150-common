@@ -9,3 +9,7 @@ type hal_mlipay_hwservice, hwservice_manager_type;
 type hal_motor_hwservice, hwservice_manager_type;
 
 type hal_touchfeature_hwservice, hwservice_manager_type;
+
+type nxpese_hwservice, hwservice_manager_type;
+type focaltech_hwservice, hwservice_manager_type;
+type hal_dms_hwservice, hwservice_manager_type;
