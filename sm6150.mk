@@ -38,7 +38,7 @@ PRODUCT_AAPT_PREF_CONFIG := xxhdpi
 
 # Boot animation
 PRODUCT_COPY_FILES += \
-   $(LOCAL_PATH)/prebuilt/bootanimation-dark.zip:$(TARGET_COPY_OUT_PRODUCT)/media/bootanimation.zip
+   $(LOCAL_PATH)/prebuilt/bootanimation.zip:$(TARGET_COPY_OUT_PRODUCT)/media/bootanimation.zip
 
 PRODUCT_CHARACTERISTICS := nosdcard
 
