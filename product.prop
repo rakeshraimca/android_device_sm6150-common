@@ -7,3 +7,6 @@ vendor.camera.aux.packagelist=org.codeaurora.snapcam,com.android.camera,org.line
 persist.vendor.camera.eis.enable=1
 persist.vendor.camera.is_type=5
 persist.vendor.camera.is_type_preview=5
+
+# Netflix
+ro.netflix.bsp_rev=Q6150-17263-1
