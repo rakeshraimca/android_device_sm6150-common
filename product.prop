@@ -10,3 +10,6 @@ persist.vendor.camera.is_type_preview=5
 
 # Netflix
 ro.netflix.bsp_rev=Q6150-17263-1
+
+# Graphics
+ debug.hwui.renderer=skiagl
